@@ -1,5 +1,12 @@
 # 开发环境
 ## 安装Rust
+### ubuntu和macos
+```
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+安装后的位置在HOME/.cargo
+### windows
+下载rustup-init.exe， 安装即可
 
 ## 安装Wasm的rust编译器
 ```
