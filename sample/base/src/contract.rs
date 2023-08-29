@@ -1,6 +1,6 @@
 use crate::msg::{ ExecuteMsg, GreetResp, InstantiateMsg, QueryMsg};
 use cosmwasm_std::{
-    to_binary, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Response, StdResult,
+    to_binary, Binary, Deps, DepsMut, Event, Env, MessageInfo, Response, StdResult,
 };
 use crate::error::ContractError;
 use crate::state::ADMINS;
@@ -61,12 +61,20 @@ mod exec {
             return Err(ContractError::Unauthorized {sender: info.sender});
         }
 
+        let events = admins.iter().map(|admin| Event::new("admin_added").add_attribute("addr", admin));
+
+        let resp = Response::new()
+            .add_events(events)
+            .add_attribute("action", "add_members")
+            .add_attribute("added_count", admins.len().to_string());
+
+
         let admins: StdResult<Vec<_>> = admins.into_iter().map(|addr| deps.api.addr_validate(&addr)).collect();
 
         curr_admins.append(&mut admins?);
         ADMINS.save(deps.storage, &curr_admins);
 
-        Ok(Response::new())
+        Ok(resp)
 
     }
 
