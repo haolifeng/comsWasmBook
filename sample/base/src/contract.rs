@@ -1,14 +1,16 @@
-use crate::msg::{GreetResp, QueryMsg};
+use crate::msg::{GreetResp, InstantiateMsg, QueryMsg};
 use cosmwasm_std::{
     to_binary, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Response, StdResult,
 };
-
+use crate::state::ADMINS;
 pub fn instantiate(
-    _deps: DepsMut,
+    deps: DepsMut,
     _env: Env,
     _info: MessageInfo,
-    _msg: Empty,
+    msg: InstantiateMsg,
 ) -> StdResult<Response> {
+    let admins: StdResult<Vec<_>> = msg.admins.into_iter().map(|addr| deps.api.addr_validate(&addr)).collect();
+    ADMINS.save(deps.storage, &admins?)?;
     Ok(Response::new())
 }
 
