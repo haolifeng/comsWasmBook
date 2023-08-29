@@ -2,6 +2,7 @@ use crate::msg::{ ExecuteMsg, GreetResp, InstantiateMsg, QueryMsg};
 use cosmwasm_std::{
     to_binary, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Response, StdResult,
 };
+use crate::error::ContractError;
 use crate::state::ADMINS;
 pub fn instantiate(
     deps: DepsMut,
@@ -40,10 +41,10 @@ pub  fn execute (
     _env: Env,
     info :MessageInfo,
     msg: ExecuteMsg,
-)->StdResult<Response> {
+)->Result<Response, ContractError> {
     use ExecuteMsg::*;
     match msg {
-        AddMembers { admins} => exec::add_members(deps, info, admins);
+        AddMembers { admins} => exec::add_members(deps, info, admins),
         ExecuteMsg::Leave {}=> exec::leave(deps, info),
     }
 }
@@ -54,10 +55,10 @@ mod exec {
         deps: DepsMut,
         info: MessageInfo,
         admins: Vec<String>
-    )-> StdResult<Response> {
+    )-> Result<Response, ContractError> {
         let mut curr_admins = ADMINS.load(deps.storage)?;
         if !curr_admins.contains(&info.sender) {
-            return Err(StdError::generic_err("Unauthorised access"));
+            return Err(ContractError::Unauthorized {sender: info.sender});
         }
 
         let admins: StdResult<Vec<_>> = admins.into_iter().map(|addr| deps.api.addr_validate(&addr)).collect();
@@ -69,7 +70,7 @@ mod exec {
 
     }
 
-    pub fn leave(deps: DepsMut, info: MessageInfo)-> StdResult<Response> {
+    pub fn leave(deps: DepsMut, info: MessageInfo)-> Result<Response, ContractError> {
         ADMINS.update(deps.storage, move |admins|-> StdResult<_> {
             let admins = admins.into_iter().filter(|admin| *admin != info.sender).collect();
             Ok(admins)
