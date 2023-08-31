@@ -32,3 +32,14 @@ cosmwasm-std = { version = "1.0.0-beta8", features = ["staking"] }
 + 在[dependencies]中增加cosmwasm-std库。它是智能合约的标准库。
 
 + 添加[package.metadata.scripts]。 添加优化代码的执行脚本
+## 添加依赖
+ 
+```
+cargo add cosmwasm-std
+cargo add cosmwasm-schema
+cargo add cosm-storage
+cargo add cw-storage-plus
+cargo add schemars
+cargo add serde
+cargo thiserror
+```
