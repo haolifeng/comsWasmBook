@@ -1,4 +1,9 @@
 # 查询
+## query
+```
+pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> 
+
+```
 ## serde
 添加serde到我们的依赖中，它帮助我们序列化和反序列化查询消息。更新Cargo.toml:
 ```
@@ -150,4 +155,3 @@ mod query {
 
 ```
 
-## 结构化合约
