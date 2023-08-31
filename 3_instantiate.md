@@ -63,7 +63,16 @@ pub enum Result<T, E> {
     Err(#[stable(feature = "rust1", since = "1.0.0")] E),
 }
  ```
- 在样例中Err为定制的ContractError
++ Response
+```
+pub struct Response<T = Empty> {
+    pub messages: Vec<SubMsg<T>>,
+    pub attributes: Vec<Attribute>,
+    pub events: Vec<Event>,
+    pub data: Option<Binary>,
+}
+```
++ 在样例中Err为定制的ContractError
  ```
  pub enum ContractError {
     #[error("{0}")]
