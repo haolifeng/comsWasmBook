@@ -25,3 +25,4 @@ StdResult 是：
 ```
 pub type StdResult<T> = core::result::Result<T, StdError>;
 ```
+
