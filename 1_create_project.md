@@ -41,5 +41,5 @@ cargo add cosm-storage
 cargo add cw-storage-plus
 cargo add schemars
 cargo add serde
-cargo thiserror
+cargo add thiserror
 ```
