@@ -6,7 +6,7 @@ let mnemonic = "drive organ stem speak melody spare ancient craft fun taste sear
 const chain = chains.find(({ chain_name }) => chain_name === 'osmosis');
 
 console.log('chain: ', chain)
-const getSinger = async ()=>{
+const getSigner = async ()=>{
     const signer = await getOfflineSignerProto({
         mnemonic,
         chain
@@ -15,4 +15,4 @@ const getSinger = async ()=>{
 
 }
 
-module.exports = getSinger;
+module.exports = getSigner;

@@ -37,7 +37,7 @@ cosmwasm-std = { version = "1.0.0-beta8", features = ["staking"] }
 ```
 cargo add cosmwasm-std
 cargo add cosmwasm-schema
-cargo add cosm-storage
+cargo add cosmwasm-storage
 cargo add cw-storage-plus
 cargo add schemars
 cargo add serde
