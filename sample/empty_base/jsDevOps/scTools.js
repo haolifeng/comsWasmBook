@@ -146,6 +146,14 @@ const exeucte = async (signer, scAddr, msgBuff) => {
 
 }
 
+const getBalance  = async (_address)=>{
+    const client = await createRPCQueryClient({ rpcEndpoint: RPC_ENDPOINT });
+    const balance = await client.cosmos.bank.v1beta1
+        .allBalances({ address: _address });
+    console.log("address: ",_address ,  '- balance: ', balance);
+    
+}
+
 module.exports = {
-    storecode, instantiate, exeucte
+    storecode, instantiate, exeucte, getBalance
 }
