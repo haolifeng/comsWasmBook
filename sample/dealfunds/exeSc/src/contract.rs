@@ -2,7 +2,7 @@ use crate::error::ContractError;
 use crate::msg::{GreetResp, InstantiateMsg, QueryMsg,AdminsListResp, ExecuteMsg};
 use crate::state::{ADMINS, DONATION_DENOM};
 use cosmwasm_std::{
-    to_binary, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Response, StdResult, Event
+    coins, to_binary, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Response, StdResult, Event, BankMsg,
 };
 
 pub fn instantiate(
@@ -13,6 +13,7 @@ pub fn instantiate(
 ) -> StdResult<Response>{
     let admins: StdResult<Vec<_>> = msg.admins.into_iter().map(|addr| deps.api.addr_validate(&addr)).collect();
     ADMINS.save(deps.storage, &admins?)?;
+    DONATION_DENOM.save(deps.storage, &msg.donation_denom)?;
     Ok(Response::new())
 }
 
@@ -51,6 +52,7 @@ pub fn execute(
     match msg {
         AddMembers { admins} => exec::add_members(deps, info,admins),
         Leave {} => exec::leave(deps, info).map_err(Into::into),
+        Donate {} => exec::donate(deps, info),
     }
 }
 
@@ -83,6 +85,24 @@ mod exec {
             Ok(admins)
         })?;
         Ok(Response::new())
+    }
+
+    pub fn donate(deps: DepsMut, info: MessageInfo) -> Result<Response, ContractError> {
+        let denom = DONATION_DENOM.load(deps.storage)?;
+        let admins = ADMINS.load(deps.storage)?;
+
+        let donation = cw_utils::must_pay(&info, &denom)?.u128();
+        let donation_per_admin = donation / (admins.len() as u128);
+
+        let messages = admins.into_iter().map(|admin| BankMsg::Send {
+            to_address: admin.to_string(),
+            amount: coins(donation_per_admin, &denom)
+        });
+        let resp = Response::new().add_messages(messages)
+            .add_attribute("action", "donate")
+            .add_attribute("amount", donation.to_string())
+            .add_attribute("per_admin", donation_per_admin.to_string());
+        Ok(resp)
     }
 
 }
