@@ -5,10 +5,10 @@ use msg::{ExecuteMsg, InstantiateMsg, QueryMsg};
 use crate::error::ContractError;
 
 
-mod msg;
-mod contract;
-mod state;
-mod error;
+pub mod msg;
+pub mod contract;
+pub mod state;
+pub mod error;
 
 #[entry_point]
 pub fn instantiate(deps: DepsMut, env: Env, info: MessageInfo, msg: InstantiateMsg)
