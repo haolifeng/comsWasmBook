@@ -8,6 +8,9 @@ async function balanceOf() {
 
     let balance2 = await client.queryContractSmart(config.scAddr, {"balance":{"address": config.wallet2.address}});
     console.log('balance2 is :', balance2.balance);
+
+    let scBalance = await client.queryContractSmart(config.scAddr, {"balance":{"address": "osmo1cwp06zegl87jmhuqrxrrgpwp04fulsngxv5x5pkf2rc4zewc8efsmk25ss"}});
+    console.log('scBalance is :', scBalance.balance);
     
 }
 async function tokenInfo() {
@@ -28,7 +31,7 @@ const allowance = async ()=>{
 
 
 
-//balanceOf();
+balanceOf();
 //tokenInfo();
-minter();
+//minter();
 //allowance();
