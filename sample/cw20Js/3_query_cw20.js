@@ -28,7 +28,7 @@ const allowance = async ()=>{
 
 
 
-balanceOf();
+//balanceOf();
 //tokenInfo();
-//minter();
+minter();
 //allowance();

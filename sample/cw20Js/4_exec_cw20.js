@@ -50,7 +50,26 @@ const burn = async ()=>{
     await scTools.exeucte(signer, config.scAddr, Buffer.from(strMsgData));
 }
 
+const updateMint = async ()=> {
+    let signer = await getSinger();
+    let toAddr = config.wallet2.address;
+
+    let msgData = {
+        update_minter: {
+            new_minter: "osmo1cwp06zegl87jmhuqrxrrgpwp04fulsngxv5x5pkf2rc4zewc8efsmk25ss",
+            
+        }
+    }
+    let strMsgData = JSON.stringify(msgData);
+    console.log('msgData :', strMsgData);
+
+    await scTools.exeucte(signer, config.scAddr, Buffer.from(strMsgData));
+}
+
 
 //transfer();
 //mint();
-burn();
+//burn();
+
+updateMint()
+
