@@ -6,7 +6,7 @@ const f = async (txhash)=>{
     const client2 = await createRPCQueryClient({ rpcEndpoint: config.RPC_ENDPOINT });
 
     let tx2 = await client2.cosmos.tx.v1beta1.getTx({hash: txhash})
-    //console.log('tx2: ', tx2);
+    console.log('tx2: ', tx2);
 
     let messages = tx2.tx.body.messages;
     for(let k = 0; k < messages.length ;k++){
@@ -33,10 +33,14 @@ const f = async (txhash)=>{
     for(let i = 0; i < events.length; i++) {
         console.log(i, '  -- ', events[i])
         //console.log(i, '  -- ', events[i].type, ' | ', Buffer.from(events[i].attributes[0].key).toString(), ' : ', Buffer.from(events[i].attributes[0].value).toString())
-      //  if(i === 11){
-       //     console.log(i, '  -- ', events[i].type, ' | ', Buffer.from(events[i].attributes[0].key).toString(), ' : ', Buffer.from(events[i].attributes[0].value).toString())
-        //    console.log(i, '  -- ', events[i].type, ' | ', Buffer.from(events[i].attributes[1].key).toString(), ' : ', Buffer.from(events[i].attributes[1].value).toString())
-       // }
+       /* if(i === 11){
+            console.log(i, '  -- ', events[i].type, ' | ', Buffer.from(events[i].attributes[0].key).toString(), ' : ', Buffer.from(events[i].attributes[0].value).toString())
+            console.log(i, '  -- ', events[i].type, ' | ', Buffer.from(events[i].attributes[1].key).toString(), ' : ', Buffer.from(events[i].attributes[1].value).toString())
+        }*/
+        for(let j = 0; j< events[i].attributes.length; j++){
+            console.log(i, '  -- ', events[i].type, ' | ', Buffer.from(events[i].attributes[j].key).toString(), ' : ', Buffer.from(events[i].attributes[j].value).toString())
+
+        }
     }
     /*
     * 11   --  wasm-admin_added  |  _contract_address  :  osmo1k84p07h5m89d52nhuhp5metg8zerf9xvs25gk5p6wcvn65c209zqcy7jhv
@@ -44,6 +48,8 @@ const f = async (txhash)=>{
 
     * */
 }
+tx = "591569B5BB2A01188982B12B6BBAD141092A7F4344B74A2CC022D861D613A10C"
+//f(config.donateTxhash)
 
-f(config.donateTxhash)
+f(tx);
 
