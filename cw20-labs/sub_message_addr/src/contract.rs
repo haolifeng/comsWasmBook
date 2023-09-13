@@ -1,6 +1,7 @@
-#[cfg(not(feature = "library"))]
+
 use cosmwasm_std::entry_point;
-use cosmwasm_std::{to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult};
+use cosmwasm_std::{to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult,
+                   Event};
 use cw2::set_contract_version;
 
 use crate::error::ContractError;
@@ -11,7 +12,7 @@ use crate::state::{State, STATE};
 const CONTRACT_NAME: &str = "crates.io:osmo";
 const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
 
-#[cfg_attr(not(feature = "library"), entry_point)]
+#[entry_point]
 pub fn instantiate(
     deps: DepsMut,
     _env: Env,
@@ -25,13 +26,17 @@ pub fn instantiate(
     set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
     STATE.save(deps.storage, &state)?;
 
+    let event = Event::new("instantiate").add_attribute("count", msg.count.to_string())
+        .add_attribute("owner", info.sender.clone())
+        .add_attribute("actioin","instantiate");
+
     Ok(Response::new()
         .add_attribute("method", "instantiate")
         .add_attribute("owner", info.sender)
-        .add_attribute("count", msg.count.to_string()))
+        .add_attribute("count", msg.count.to_string()).add_event(event))
 }
 
-#[cfg_attr(not(feature = "library"), entry_point)]
+#[entry_point]
 pub fn execute(
     deps: DepsMut,
     _env: Env,
@@ -49,8 +54,11 @@ pub fn try_increment(deps: DepsMut) -> Result<Response, ContractError> {
         state.count += 1;
         Ok(state)
     })?;
+    let state = STATE.load(deps.storage)?;
+    let event = Event::new("try_increment").add_attribute("count", state.count.to_string()).add_attribute("owner", state.owner.clone())
+        .add_attribute("action", "try_increment");
 
-    Ok(Response::new().add_attribute("method", "try_increment"))
+    Ok(Response::new().add_attribute("method", "try_increment").add_event(event))
 }
 
 pub fn try_reset(deps: DepsMut, info: MessageInfo, count: i32) -> Result<Response, ContractError> {
@@ -61,10 +69,11 @@ pub fn try_reset(deps: DepsMut, info: MessageInfo, count: i32) -> Result<Respons
         state.count = count;
         Ok(state)
     })?;
-    Ok(Response::new().add_attribute("method", "reset"))
+    let event = Event::new("try_reset").add_attribute("sender", info.sender).add_attribute("action", "try_reset");
+    Ok(Response::new().add_attribute("method", "reset").add_event(event))
 }
 
-#[cfg_attr(not(feature = "library"), entry_point)]
+#[entry_point]
 pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
     match msg {
         QueryMsg::GetCount {} => to_binary(&query_count(deps)?),
