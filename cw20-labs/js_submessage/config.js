@@ -15,6 +15,10 @@ let config = {
     addr_code_id:4117,
     addrScAddr:"osmo1zsdyjgvytgecng6n9mc2u2p29s4wwsrwcd7jtghgkxtvgghq0mjsktawn8",
 
+    endScBytecodePath:"../sub_message_end/artifacts/sub_message_end.wasm",
+    end_code_id:4170,
+    endScaddr:"osmo1x2fmekv4gpjqgtqvsfdal9mzjth333p84fcf3n4s7cksrhu2ylhskd9y77",
+
     mangeScByteCodePath:"../sub_message_mange/artifacts/sub_message_mange.wasm",
     mange_code_id:"",
     mangeScAddr:"",

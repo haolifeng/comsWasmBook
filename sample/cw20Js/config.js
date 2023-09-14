@@ -12,6 +12,7 @@ let config = {
     scByteCodePath : "./cw20_base.wasm",
     code_id:3902,
     scAddr: 'osmo1uz2fq77cepv49ay7cfrkprgp7j93pezl3sr5zfzy9zzj440jmggsndjnqa',
+    
     donateTxhash:"C47B9231AE7D5C5470C5EF07CC28A0FBC6E926902C055980C5BE88C081768638"
 
 

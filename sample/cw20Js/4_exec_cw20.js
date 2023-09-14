@@ -68,8 +68,8 @@ const updateMint = async ()=> {
 
 
 //transfer();
-//mint();
+mint();
 //burn();
 
-updateMint()
+//updateMint()
 
