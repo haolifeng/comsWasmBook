@@ -9,7 +9,10 @@ pub enum  QueryMsg {
 #[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
 pub enum ExecuteMsg {
     Mint { sc: Addr, recipient: Addr, amount: Uint128},
-    Burn { sc:Addr, amount:Uint128 }
+    Burn { sc:Addr, amount:Uint128 },
+    Right {},
+    Wrong {}
+
 }
 
 #[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]

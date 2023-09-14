@@ -20,8 +20,8 @@ let config = {
     endScaddr:"osmo1x2fmekv4gpjqgtqvsfdal9mzjth333p84fcf3n4s7cksrhu2ylhskd9y77",
 
     mangeScByteCodePath:"../sub_message_mange/artifacts/sub_message_mange.wasm",
-    mange_code_id:"",
-    mangeScAddr:"",
+    mange_code_id:4179,
+    mangeScAddr:"osmo1u34xskmem0zq62c483xtfk3rcvkhgcjdqetgzqyynnhx69hpk3nq03npt7",
 
 
     cw20ScAddr: 'osmo1uz2fq77cepv49ay7cfrkprgp7j93pezl3sr5zfzy9zzj440jmggsndjnqa',
